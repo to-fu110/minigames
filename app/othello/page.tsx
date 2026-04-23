@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import './othello.css'
 import { useState } from 'react'
 
 const cellType = {"N": "N", "B": "B", "W": "W"};
@@ -65,17 +64,18 @@ export default function Othello() {
         <main>
             <h1>Othello</h1>
             <h2>Nextplayer: {turn === cellType.B ? "Black" : "White"}</h2> 
-            <div className="board">
+            <div className="grid grid-cols-8 w-fit bg-green-700">
                 {board.map((row, rowindex) => (
                     row.map((cell:string, cellindex:number) => (
                         <button className="border border-gray-300 size-12" onClick={() => handleClick(rowindex, cellindex)}>
-                            {cell === cellType.B && <Image className="piece" src="/blackOthello.svg" alt="" width={40} height={40} loading='eager'/>}
-                            {cell === cellType.W && <Image className="piece" src="/whiteOthello.svg" alt="" width={40} height={40} loading='eager'/>}
+                            {cell === cellType.B && <Image className="m-auto" src="/othello/blackOthello.svg" alt="" width={40} height={40} loading='eager'/>}
+                            {cell === cellType.W && <Image className="m-auto" src="/othello/whiteOthello.svg" alt="" width={40} height={40} loading='eager'/>}
                         </button>
                     ))
                 ))}
             </div>
-            <button onClick={() => setTurn(turn === cellType.B ? cellType.W : cellType.B)} className="pass">
+            <button onClick={() => setTurn(turn === cellType.B ? cellType.W : cellType.B)}
+            className="bg-cyan-700 rounded-sm px-5 py-2">
                 Pass
             </button>
             <br />
