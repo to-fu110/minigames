@@ -208,7 +208,7 @@ export default function DigBomb() {
                         >
                             {cell.isOpen ? (
                                 cell.isBomb ? (
-                                    <Image src="./dig_bomb/bomb.svg" alt="Bomb" width={20} height={20} />
+                                    <Image src={`${process.env.PUBLIC_URL}/dig_bomb/bomb.svg`} alt="Bomb" width={20} height={20} />
                                 ) : (
                                     cell.bombNum || ''
                                 )
