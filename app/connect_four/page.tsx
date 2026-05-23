@@ -63,7 +63,7 @@ export default function ConnectFour() {
         {board.map((row, rowindex) => (
           row.map((cell: string, cellindex: number) => (
             <button key={`${rowindex}-${cellindex}`} className="border border-gray-500 size-12" onClick={() => handleClick(cellindex)}>
-              {cell === cellType.R && <Image className="m-auto" src={`minigames/connect_four/redpiece.svg`} alt="" width={40} height={40} loading='eager' />}
+              {cell === cellType.R && <Image className="m-auto" src={`minigames/public/connect_four/redpiece.svg`} alt="" width={40} height={40} loading='eager' />}
               {cell === cellType.B && <Image className="m-auto" src={`minigames/connect_four/bluepiece.svg`} alt="" width={40} height={40} loading='eager' />}
             </button>
           ))

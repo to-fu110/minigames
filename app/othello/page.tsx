@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
-const cellType = {"N": "N", "B": "B", "W": "W"};
+const cellType = { "N": "N", "B": "B", "W": "W" };
 
 const startBoard = () => {
     const board = Array.from({ length: 8 }, () => Array(8).fill(cellType.N));
@@ -49,14 +49,14 @@ export default function Othello() {
         }
     }
 
-    function Scan(rowIndex: number, cellIndex: number, dx: number,dy: number): boolean {
-        if  (rowIndex + dy >= 0 && rowIndex + dy < 8 && cellIndex + dx >= 0 && cellIndex + dx < 8) {
+    function Scan(rowIndex: number, cellIndex: number, dx: number, dy: number): boolean {
+        if (rowIndex + dy >= 0 && rowIndex + dy < 8 && cellIndex + dx >= 0 && cellIndex + dx < 8) {
             if (board[rowIndex + dy][cellIndex + dx] !== turn && board[rowIndex + dy][cellIndex + dx] !== cellType.N) {
                 while (rowIndex + dy >= 0 && rowIndex + dy < 8 && cellIndex + dx >= 0 && cellIndex + dx < 8) {
                     rowIndex += dy; cellIndex += dx;
                     if (board[rowIndex][cellIndex] === turn) {
                         return true;
-                    }else if (board[rowIndex][cellIndex] === cellType.N) {
+                    } else if (board[rowIndex][cellIndex] === cellType.N) {
                         break;
                     }
                 }
@@ -68,10 +68,10 @@ export default function Othello() {
 
     function checkPut(board: string[][]) {
         const newIsPut = Array.from({ length: 8 }, () => Array(8).fill(false));
-        for(let i=0;i<8;i++) {
-            for(let j=0;j<8;j++){
+        for (let i = 0; i < 8; i++) {
+            for (let j = 0; j < 8; j++) {
                 let canPut = false;
-                if(board[i][j] !== cellType.N) continue;
+                if (board[i][j] !== cellType.N) continue;
                 for (let dx = -1; dx <= 1; dx++) {
                     for (let dy = -1; dy <= 1; dy++) {
                         if (dx === 0 && dy === 0) continue;
@@ -85,7 +85,7 @@ export default function Othello() {
                         }
                     }
                 }
-                if(canPut) {
+                if (canPut) {
                     newIsPut[i][j] = true;
                 }
             }
@@ -96,19 +96,19 @@ export default function Othello() {
     return (
         <main>
             <h1>Othello</h1>
-            <h2>Nextplayer: {turn === cellType.B ? "Black" : "White"}</h2> 
+            <h2>Nextplayer: {turn === cellType.B ? "Black" : "White"}</h2>
             <div className={`grid grid-cols-8 w-fit ${isPut[1][1] ? 'bg-green-300' : 'bg-green-700'}`}>
                 {board.map((row, rowindex) => (
-                    row.map((cell:string, cellindex:number) => (
+                    row.map((cell: string, cellindex: number) => (
                         <button className={`border border-gray-300 ${isPut[rowindex][cellindex] ? 'bg-green-300' : 'bg-green-700'} size-12`} onClick={() => handleClick(rowindex, cellindex)}>
-                            {cell === cellType.B && <Image className="m-auto" src={`minigames/othello/blackOthello.svg`} alt="" width={40} height={40} loading='eager'/>}
-                            {cell === cellType.W && <Image className="m-auto" src={`minigames/othello/whiteOthello.svg`} alt="" width={40} height={40} loading='eager'/>}
+                            {cell === cellType.B && <Image className="m-auto" src={`minigames/public/othello/blackOthello.svg`} alt="" width={40} height={40} loading='eager' />}
+                            {cell === cellType.W && <Image className="m-auto" src={`minigames/public/othello/whiteOthello.svg`} alt="" width={40} height={40} loading='eager' />}
                         </button>
                     ))
                 ))}
             </div>
             <button onClick={() => setTurn(turn === cellType.B ? cellType.W : cellType.B)}
-            className="bg-cyan-700 rounded-sm px-5 py-2">
+                className="bg-cyan-700 rounded-sm px-5 py-2">
                 Pass
             </button>
             <br />
