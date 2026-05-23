@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const cellType = {"N": "N", "B": "B", "W": "W"};
 
@@ -17,7 +17,12 @@ const startBoard = () => {
 
 export default function Othello() {
     const [board, setBoard] = useState(startBoard());
+    const [isPut, setIsput] = useState(Array.from({ length: 8 }, () => Array(8).fill(false)));
     const [turn, setTurn] = useState(cellType.B);
+
+    useEffect(() => {
+        checkPut(board);
+    }, [board]);
 
     function handleClick(rowIndex: number, cellIndex: number) {
         if (board[rowIndex][cellIndex] === cellType.N) {
@@ -60,14 +65,42 @@ export default function Othello() {
         return false;
 
     }
+
+    function checkPut(board: string[][]) {
+        const newIsPut = Array.from({ length: 8 }, () => Array(8).fill(false));
+        for(let i=0;i<8;i++) {
+            for(let j=0;j<8;j++){
+                let canPut = false;
+                if(board[i][j] !== cellType.N) continue;
+                for (let dx = -1; dx <= 1; dx++) {
+                    for (let dy = -1; dy <= 1; dy++) {
+                        if (dx === 0 && dy === 0) continue;
+                        if (Scan(i, j, dx, dy)) {
+                            canPut = true;
+                            let x = j + dx;
+                            let y = i + dy;
+                            while (board[y][x] !== turn) {
+                                x += dx; y += dy;
+                            }
+                        }
+                    }
+                }
+                if(canPut) {
+                    newIsPut[i][j] = true;
+                }
+            }
+        }
+        setIsput(newIsPut);
+    }
+
     return (
         <main>
             <h1>Othello</h1>
             <h2>Nextplayer: {turn === cellType.B ? "Black" : "White"}</h2> 
-            <div className="grid grid-cols-8 w-fit bg-green-700">
+            <div className={`grid grid-cols-8 w-fit ${isPut[1][1] ? 'bg-green-300' : 'bg-green-700'}`}>
                 {board.map((row, rowindex) => (
                     row.map((cell:string, cellindex:number) => (
-                        <button className="border border-gray-300 size-12" onClick={() => handleClick(rowindex, cellindex)}>
+                        <button className={`border border-gray-300 ${isPut[rowindex][cellindex] ? 'bg-green-300' : 'bg-green-700'} size-12`} onClick={() => handleClick(rowindex, cellindex)}>
                             {cell === cellType.B && <Image className="m-auto" src="/othello/blackOthello.svg" alt="" width={40} height={40} loading='eager'/>}
                             {cell === cellType.W && <Image className="m-auto" src="/othello/whiteOthello.svg" alt="" width={40} height={40} loading='eager'/>}
                         </button>
