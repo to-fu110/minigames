@@ -3,7 +3,8 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
-import next from "next";
+import red from "../../public/connect_four/redpiece.svg"
+import blue from "../../public/connect_four/bluepiece.svg"
 
 const cellType = { "N": "N", "R": "R", "B": "B" };
 
@@ -63,8 +64,8 @@ export default function ConnectFour() {
         {board.map((row, rowindex) => (
           row.map((cell: string, cellindex: number) => (
             <button key={`${rowindex}-${cellindex}`} className="border border-gray-500 size-12" onClick={() => handleClick(cellindex)}>
-              {cell === cellType.R && <Image className="m-auto" src={`/connect_four/redpiece.svg`} alt="" width={40} height={40} priority />}
-              {cell === cellType.B && <Image className="m-auto" src={`/connect_four/bluepiece.svg`} alt="" width={40} height={40} priority />}
+              {cell === cellType.R && <Image className="m-auto" src={red} alt="" width={40} height={40} priority />}
+              {cell === cellType.B && <Image className="m-auto" src={blue} alt="" width={40} height={40} priority />}
             </button>
           ))
         ))}

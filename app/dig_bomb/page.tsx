@@ -92,6 +92,8 @@ export default function DigBomb() {
 import Link from "next/link"
 import Image from "next/image"
 import { useState, useRef } from "react"
+import bomb from "../../public/dig_bomb/bomb.svg"
+
 
 type cell = { isBomb: boolean, isOpen: boolean, isFrag: boolean, bombNum: number };
 
@@ -208,7 +210,7 @@ export default function DigBomb() {
                         >
                             {cell.isOpen ? (
                                 cell.isBomb ? (
-                                    <Image src={`/dig_bomb/bomb.svg`} alt="Bomb" width={20} height={20} />
+                                    <Image src={bomb} alt="Bomb" width={20} height={20} />
                                 ) : (
                                     cell.bombNum || ''
                                 )
