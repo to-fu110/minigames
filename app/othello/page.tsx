@@ -101,8 +101,8 @@ export default function Othello() {
                 {board.map((row, rowindex) => (
                     row.map((cell: string, cellindex: number) => (
                         <button className={`border border-gray-300 ${isPut[rowindex][cellindex] ? 'bg-green-300' : 'bg-green-700'} size-12`} onClick={() => handleClick(rowindex, cellindex)}>
-                            {cell === cellType.B && <Image className="m-auto" src={`minigames/public/othello/blackOthello.svg`} alt="" width={40} height={40} loading='eager' />}
-                            {cell === cellType.W && <Image className="m-auto" src={`minigames/public/othello/whiteOthello.svg`} alt="" width={40} height={40} loading='eager' />}
+                            {cell === cellType.B && <Image className="m-auto" src={`minigames/public/othello/blackOthello.svg`} alt="" width={40} height={40} priority />}
+                            {cell === cellType.W && <Image className="m-auto" src={`minigames/public/othello/whiteOthello.svg`} alt="" width={40} height={40} priority/>}
                         </button>
                     ))
                 ))}
