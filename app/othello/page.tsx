@@ -24,7 +24,7 @@ export default function Othello() {
 
     useEffect(() => {
         checkPut(board);
-    }, [board]);
+    }, [turn]);
 
     function handleClick(rowIndex: number, cellIndex: number) {
         if (board[rowIndex][cellIndex] === cellType.N) {
@@ -102,19 +102,27 @@ export default function Othello() {
             <div className={`grid grid-cols-8 w-fit ${isPut[1][1] ? 'bg-green-300' : 'bg-green-700'}`}>
                 {board.map((row, rowindex) => (
                     row.map((cell: string, cellindex: number) => (
-                        <button className={`border border-gray-300 ${isPut[rowindex][cellindex] ? 'bg-green-300' : 'bg-green-700'} size-12`} onClick={() => handleClick(rowindex, cellindex)}>
+                        <button className={`border border-gray-300 ${isPut[rowindex][cellindex] ? 'bg-green-300' : 'bg-green-700'} size-12`}
+                            onClick={() => { handleClick(rowindex, cellindex); }} key={`${rowindex}-${cellindex}`}>
                             {cell === cellType.B && <Image className="m-auto" src={black} alt="" width={40} height={40} priority />}
-                            {cell === cellType.W && <Image className="m-auto" src={white} alt="" width={40} height={40} priority/>}
+                            {cell === cellType.W && <Image className="m-auto" src={white} alt="" width={40} height={40} priority />}
                         </button>
                     ))
                 ))}
             </div>
-            <button onClick={() => setTurn(turn === cellType.B ? cellType.W : cellType.B)}
-                className="bg-cyan-700 rounded-sm px-5 py-2">
-                Pass
-            </button>
+
             <br />
-            <Link href="/">Go back to Home</Link>
+            <div className="flex gap-4">
+                <button onClick={() => {
+                    setTurn(turn === cellType.B ? cellType.W : cellType.B);
+                }}
+                    className="bg-cyan-600 rounded-sm px-5 py-2 hover:bg-cyan-800">
+                    Pass
+                </button>
+                <Link href="/" className="px-2 py-3 text-white bg-slate-600 rounded-md hover:bg-slate-700">
+                    Go back to Home
+                </Link>
+            </div>
         </main>
     )
 }

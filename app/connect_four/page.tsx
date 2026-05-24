@@ -58,9 +58,9 @@ export default function ConnectFour() {
   }
 
   return (
-    <main>
+    <main className="flex flex-col items-center min-h-screen py-2 gap-8">
       <h1>Connect Four</h1>
-      <div className="grid grid-cols-7 w-fit bg-slate-900">
+      <div className="grid grid-cols-7 w-fit bg-slate-900 object-center">
         {board.map((row, rowindex) => (
           row.map((cell: string, cellindex: number) => (
             <button key={`${rowindex}-${cellindex}`} className="border border-gray-500 size-12" onClick={() => handleClick(cellindex)}>
@@ -70,7 +70,17 @@ export default function ConnectFour() {
           ))
         ))}
       </div>
-      <Link href="/">Back to home</Link>
+      <div className="flex gap-4">
+        <button onClick={() => {
+          setboard(Array.from({ length: 6 }, () => Array(7).fill(cellType.N)));
+          setTurn(cellType.R);
+        }} className="p-2 text-white bg-red-600 rounded-md hover:bg-red-700">
+          Reset Game
+        </button>
+        <Link href="/" className="px-2 py-3 text-white bg-slate-600 rounded-md hover:bg-slate-700">
+          Back to home
+        </Link>
+      </div>
     </main>
   )
 }
