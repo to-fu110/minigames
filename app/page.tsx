@@ -95,7 +95,12 @@ function GameArticles({ gamename, href, setumei, color }: { gamename: string, hr
 
 export default function Home() {
 
-  const [color, setColor] = useState(localStorage.getItem('color') || 'pink');
+  const [color, setColor] = useState( () => {
+    if(typeof window !== "undefined"){
+      return localStorage.getItem('color') || 'pink';
+    }
+    return 'pink';
+  });
 
   const GameList = [
     { gamename: "Connect Four", href: "/connect_four", setumei: "コインを落として４つ並べるゲーム。数手先を読む思考力を問われます。" },
