@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import red from "../../public/connect_four/redpiece.svg"
 import blue from "../../public/connect_four/bluepiece.svg"
 
@@ -12,6 +12,24 @@ export default function ConnectFour() {
 
   const [board, setboard] = useState(Array.from({ length: 6 }, () => Array(7).fill(cellType.N)));
   const [Turn, setTurn] = useState(cellType.R);
+
+  useEffect(() => {
+      const rawhistory = localStorage.getItem("History");
+      const history: string[] = [];
+      try {
+          if (rawhistory) {
+              const parsed = JSON.parse(rawhistory);
+              if (Array.isArray(parsed)) {
+                  history.push(...parsed);
+              }
+          }
+      } catch (error) {
+          console.error("Error parsing History from localStorage:", error);
+      }
+      const filtered = history.filter((item, index) => item !== "Connect Four");
+      const newHistory = [ "Connect Four", ...filtered].slice(0, 6); 
+      localStorage.setItem("History", JSON.stringify([...newHistory]));
+  },[]);
 
   function handleClick(col: number) {
     let row = 5;

@@ -91,13 +91,31 @@ export default function DigBomb() {
 
 import Link from "next/link"
 import Image from "next/image"
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import bomb from "../../public/dig_bomb/bomb.svg"
 
 
 type cell = { isBomb: boolean, isOpen: boolean, isFrag: boolean, bombNum: number };
 
 export default function DigBomb() {
+    useEffect(() => {
+        const rawhistory = localStorage.getItem("History");
+        const history: string[] = [];
+        try {
+            if (rawhistory) {
+                const parsed = JSON.parse(rawhistory);
+                if (Array.isArray(parsed)) {
+                    history.push(...parsed);
+                }
+            }
+        } catch (error) {
+            console.error("Error parsing History from localStorage:", error);
+        }
+        const filtered = history.filter((item, index) => item !== "Dig Bomb");
+        const newHistory = [ "Dig Bomb", ...filtered].slice(0, 6); 
+        localStorage.setItem("History", JSON.stringify([...newHistory]));
+    },[]);//　ゲーム履歴に追加する処理
+
     // 8x8の盤面初期化。各セルを個別のオブジェクトとして生成
     const [board, setboard] = useState<cell[][]>(
         Array.from({ length: 8 }, () =>

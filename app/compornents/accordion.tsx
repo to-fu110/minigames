@@ -9,24 +9,24 @@ interface AccordionProps {
   children: React.ReactNode;
 }
 
-export default function Accordion({ 
-  title, 
+export default function Accordion({
+  title,
   colorStyle,
-  defaultOpen = false, 
-  children 
+  defaultOpen = false,
+  children
 }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
     <div>
-        <div onClick={() => setIsOpen(!isOpen)} className={`text-2xl font-bold ${colorStyle} bg-slate-800 px-4 my-2 cursor-pointer select-none`}>
-          <span>{isOpen ? "▼" : "▶"} {title}</span>
+      <div onClick={() => setIsOpen(!isOpen)} className={`text-2xl font-bold ${colorStyle} bg-slate-800 px-4 my-2 cursor-pointer select-none`}>
+        <span>{isOpen ? "-" : "+"} {title}</span>
+      </div>
+      {isOpen && (
+        <div className="p-4 text-gray-300">
+          {children}
         </div>
-        {isOpen && (
-                <div className="p-4 text-gray-300">
-                    {children}
-                </div>
-        )}
+      )}
     </div>
   );
 }

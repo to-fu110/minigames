@@ -22,9 +22,29 @@ export default function Othello() {
     const [isPut, setIsput] = useState(Array.from({ length: 8 }, () => Array(8).fill(false)));
     const [turn, setTurn] = useState(cellType.B);
 
+    const color = localStorage.getItem("color") || "pink";
+
     useEffect(() => {
         checkPut(board);
     }, [turn]);
+
+    useEffect(() => {
+        let history: string[] = [];
+        try {
+            const rawhistory = localStorage.getItem("History");
+            if (rawhistory) {
+                const parsed = JSON.parse(rawhistory);
+                if (Array.isArray(parsed)) {
+                    history = [...parsed];
+                }
+            }
+        } catch (error) {
+            console.error("Error parsing History from localStorage:", error);
+        }
+        const filtered = history.filter((item, index) => item !== "Othello");
+        const newHistory = [ "Othello", ...filtered].slice(0, 6); 
+        localStorage.setItem("History", JSON.stringify([...newHistory]));
+    },[]);
 
     function handleClick(rowIndex: number, cellIndex: number) {
         if (board[rowIndex][cellIndex] === cellType.N) {
@@ -122,6 +142,7 @@ export default function Othello() {
                 <Link href="/" className="px-2 py-3 text-white bg-slate-600 rounded-md hover:bg-slate-700">
                     Go back to Home
                 </Link>
+                <input type="text" placeholder={color} />
             </div>
         </main>
     )
