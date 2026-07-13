@@ -111,8 +111,8 @@ export default function DigBomb() {
         } catch (error) {
             console.error("Error parsing History from localStorage:", error);
         }
-        const filtered = history.filter((item, index) => item !== "Dig Bomb");
-        const newHistory = [ "Dig Bomb", ...filtered].slice(0, 6); 
+        const filtered = history.filter((item, index) => item !== "dig_bomb");
+        const newHistory = [ "dig_bomb", ...filtered].slice(0, 6); 
         localStorage.setItem("History", JSON.stringify([...newHistory]));
     },[]);//　ゲーム履歴に追加する処理
 

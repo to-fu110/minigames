@@ -21,6 +21,9 @@ export default function Othello() {
     const [board, setBoard] = useState(startBoard());
     const [isPut, setIsput] = useState(Array.from({ length: 8 }, () => Array(8).fill(false)));
     const [turn, setTurn] = useState(cellType.B);
+    const [isWhiteCanPut, setIsWhiteCanPut] = useState(true);
+    const [isBlackCanPut, setIsBlackCanPut] = useState(true);
+    const [isGameOver, setIsGameOver] = useState(false);
 
     const [color, setColor] = useState(() => {
         if (typeof window !== "undefined") {
@@ -31,7 +34,7 @@ export default function Othello() {
 
     useEffect(() => {
         checkPut(board);
-    }, [turn]);
+    }, [turn, board]);
 
     useEffect(() => {
         let history: string[] = [];
@@ -46,8 +49,8 @@ export default function Othello() {
         } catch (error) {
             console.error("Error parsing History from localStorage:", error);
         }
-        const filtered = history.filter((item, index) => item !== "Othello");
-        const newHistory = ["Othello", ...filtered].slice(0, 6);
+        const filtered = history.filter((item, index) => item !== "othello");
+        const newHistory = ["othello", ...filtered].slice(0, 6);
         localStorage.setItem("History", JSON.stringify([...newHistory]));
     }, []);
 
@@ -95,6 +98,7 @@ export default function Othello() {
 
     function checkPut(board: string[][]) {
         const newIsPut = Array.from({ length: 8 }, () => Array(8).fill(false));
+        let canPutplace = false;
         for (let i = 0; i < 8; i++) {
             for (let j = 0; j < 8; j++) {
                 let canPut = false;
@@ -114,10 +118,44 @@ export default function Othello() {
                 }
                 if (canPut) {
                     newIsPut[i][j] = true;
+                    canPutplace = true;
+
                 }
             }
         }
+        if (canPutplace) {
+            if (turn === cellType.B) {
+                setIsBlackCanPut(true);
+            } else {
+                setIsWhiteCanPut(true);
+            }
+        } else {
+            if (turn === cellType.B) {
+                setIsBlackCanPut(false);
+            } else {
+                setIsWhiteCanPut(false);
+            }
+        }
+        if (!isWhiteCanPut && !isBlackCanPut && !isGameOver) {
+            setIsGameOver(true);
+            const { black, white } = countBlackAndWhite(board);
+        }
+
         setIsput(newIsPut);
+    }
+
+    function countBlackAndWhite(board: string[][]): { black: number, white: number } {
+        let black = 0; let white = 0;
+        for (let i = 0; i < 8; i++) {
+            for (let j = 0; j < 8; j++) {
+                if (board[i][j] === cellType.B) {
+                    black++;
+                } else if (board[i][j] === cellType.W) {
+                    white++;
+                }
+            }
+        }
+        return { black, white };
     }
 
     return (
@@ -135,7 +173,20 @@ export default function Othello() {
                     ))
                 ))}
             </div>
-
+            {isGameOver && (
+                <div className="mt-4 p-4 bg-gray-200 rounded-md">
+                    <h3>Game Over!</h3>
+                    <p>Black: {countBlackAndWhite(board).black}</p>
+                    <p>White: {countBlackAndWhite(board).white}</p>
+                    {countBlackAndWhite(board).black > countBlackAndWhite(board).white ? (
+                        <p>Winner: Black</p>
+                    ) : countBlackAndWhite(board).black < countBlackAndWhite(board).white ? (
+                        <p>Winner: White</p>
+                    ) : (
+                        <p>It's a tie!</p>
+                    )}
+                </div>
+            )}
             <br />
             <div className="flex gap-4">
                 <button onClick={() => {

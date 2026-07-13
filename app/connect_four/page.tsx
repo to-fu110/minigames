@@ -26,8 +26,8 @@ export default function ConnectFour() {
       } catch (error) {
           console.error("Error parsing History from localStorage:", error);
       }
-      const filtered = history.filter((item, index) => item !== "Connect Four");
-      const newHistory = [ "Connect Four", ...filtered].slice(0, 6); 
+      const filtered = history.filter((item, index) => item !== "connect_four");
+      const newHistory = [ "connect_four", ...filtered].slice(0, 6); 
       localStorage.setItem("History", JSON.stringify([...newHistory]));
   },[]);
 

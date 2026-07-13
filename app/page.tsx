@@ -55,7 +55,11 @@ const Sidebar = ({ color, setColor }: { color: string, setColor: (color: string)
             <li>履歴がありません</li>
           ) : (
             history.map((item: string, index: number) => (
-              <li key={index}>{item}</li>
+              <li key={index}>
+              <Link href={"/" + item} className={getcolorStyles(color).text}>
+                {item}
+              </Link>
+              </li>
             ))
           )}
         </ul>
