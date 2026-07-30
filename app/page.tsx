@@ -36,7 +36,7 @@ const Sidebar = ({ color, setColor }: { color: string, setColor: (color: string)
     const rawhistory = localStorage.getItem("History");
     try {
       const parsed = rawhistory ? JSON.parse(rawhistory) : [];
-      if(parsed){
+      if (parsed) {
         if (Array.isArray(parsed)) {
           setHistory(parsed);
         }
@@ -56,9 +56,9 @@ const Sidebar = ({ color, setColor }: { color: string, setColor: (color: string)
           ) : (
             history.map((item: string, index: number) => (
               <li key={index}>
-              <Link href={"/" + item} className={getcolorStyles(color).text}>
-                {item}
-              </Link>
+                <Link href={"/" + item} className={getcolorStyles(color).text}>
+                  {item}
+                </Link>
               </li>
             ))
           )}
@@ -99,8 +99,8 @@ function GameArticles({ gamename, href, setumei, color }: { gamename: string, hr
 
 export default function Home() {
 
-  const [color, setColor] = useState( () => {
-    if(typeof window !== "undefined"){
+  const [color, setColor] = useState(() => {
+    if (typeof window !== "undefined") {
       return localStorage.getItem('color') || 'pink';
     }
     return 'pink';
